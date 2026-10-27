@@ -8,12 +8,12 @@ import (
 
 var (
 	// List of keywords that are not allowed in read-only mode
-	reRestrictedKeywords  = regexp.MustCompile(`(?mi)\s?(CREATE|INSERT|UPDATE|DROP|DELETE|TRUNCATE|GRANT|OPEN|IMPORT|COPY)\s`)
-	reRestrictedFunctions = regexp.MustCompile(`(?mi)(pg_cancel_backend|pg_terminate_backend)\s*\(`)
+	reRestrictedKeywords  = regexp.MustCompile(`(?mi)\b(CREATE|INSERT|UPDATE|DROP|DELETE|TRUNCATE|GRANT|OPEN|IMPORT|COPY)\b`)
+	reRestrictedFunctions = regexp.MustCompile(`(?mi)\b(pg_cancel_backend|pg_terminate_backend)\s*\(`)
 
-	// Comment regular expressions
-	reSlashComment = regexp.MustCompile(`(?m)/\*.+\*/`)
-	reDashComment  = regexp.MustCompile(`(?m)--.+`)
+	// Comment regular expressions (updated to cleanly catch inline/multiline comments)
+	reSlashComment = regexp.MustCompile(`(?ms)/\*.*?\*/`)
+	reDashComment  = regexp.MustCompile(`(?m)--.*`)
 
 	// Postgres version signature
 	postgresSignature     = regexp.MustCompile(`(?i)postgresql ([\d\.]+)\s?`)
